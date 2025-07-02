@@ -26,6 +26,10 @@ public class Product {
 
     @Column(name = "stock")
     private Integer unitsinStock;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id") // FK
+    private Category category;
 }
 
 // @oneToOne, @OneToMany, @manyToOne, @ManyToMany
