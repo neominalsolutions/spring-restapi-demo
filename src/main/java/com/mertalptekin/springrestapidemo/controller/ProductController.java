@@ -1,7 +1,11 @@
 package com.mertalptekin.springrestapidemo.controller;
 
+import com.mertalptekin.springrestapidemo.dto.product.ProductCreateDto;
+import com.mertalptekin.springrestapidemo.dto.product.ProductDetailDto;
+import com.mertalptekin.springrestapidemo.dto.product.ProductListDto;
 import com.mertalptekin.springrestapidemo.entities.Product;
 import com.mertalptekin.springrestapidemo.repository.ProductRepository;
+import com.mertalptekin.springrestapidemo.service.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,43 +23,43 @@ public class ProductController {
     @Autowired
     private ProductRepository productRepository;
 
+    @Autowired
+    private IProductService productService;
+
+
     // api/v1/products -> GET
     @GetMapping
-    public ResponseEntity<List<Product>> getProducts() {
-       List<Product> products = productRepository.findAll();
+    public ResponseEntity<List<ProductListDto>> getProducts() {
+       List<ProductListDto> products = productService.find();
        return ResponseEntity.ok(products);
     }
 
 
     // api/products/v1/1 -> pathvariable
     @GetMapping("{id}")
-    public ResponseEntity<Product> getProduct(@PathVariable("id") Long id) {
-        Optional<Product> product = productRepository.findById(id);
+    public ResponseEntity<ProductDetailDto> getProduct(@PathVariable("id") Long id) {
+        ProductDetailDto response = productService.findById(id);
+        return ResponseEntity.ok(response);
 
-        if(product.isPresent()) {
-            return ResponseEntity.ok(product.get());
-        } else {
-            return ResponseEntity.notFound().build();
-        }
     }
 
     // api/products/v1
     @PostMapping
-    public ResponseEntity<Product> create(@RequestBody Product product) {
+    public ResponseEntity create(@RequestBody ProductCreateDto product) {
         // save yoksa kaydeder varsa günceller
-        productRepository.save(product);
-        var uri =  URI.create("/api/products/v1/" + product.getId());
+        Long Id = productService.create(product);
+        var uri =  URI.create("/api/products/v1/" + Id);
         return ResponseEntity.created(uri).build(); // 201 status code
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<Product> delete(@PathVariable("id") Long id) {
-        productRepository.deleteById(id);
+    public ResponseEntity delete(@PathVariable("id") Long id) {
+        productService.delete(id);
         return ResponseEntity.noContent().build(); // 204
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<Product> update(@PathVariable("id") Long id,@RequestBody Product product) {
+    public ResponseEntity update(@PathVariable("id") Long id,@RequestBody Product product) {
         productRepository.save(product);
         return ResponseEntity.noContent().build(); // 204
     }
