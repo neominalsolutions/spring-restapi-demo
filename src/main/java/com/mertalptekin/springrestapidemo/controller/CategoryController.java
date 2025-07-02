@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.Optional;
 
 
@@ -27,8 +28,14 @@ public class CategoryController {
     private ModelMapper mapper;
 
     // kategori nesnesini ürünler ile birlikte getirme.
-    @GetMapping
+    @GetMapping("{id}")
     public ResponseEntity getCategoryWithProducts(@PathVariable("id") Long id) {
+
+        List<CategoryDto> clistOrdered = categoryRepository.findAllByOrderByNameAsc().stream().map(c-> mapper.map(c,CategoryDto.class)).toList();
+
+        Category c1 = categoryRepository.findByCategoryId(id);
+        System.out.println("c1" + c1.getName());
+
 
         Optional<Category> c = categoryRepository.findById(id);
         if(c.isPresent()){
