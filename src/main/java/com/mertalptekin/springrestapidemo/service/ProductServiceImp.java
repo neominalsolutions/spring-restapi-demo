@@ -38,6 +38,10 @@ public class ProductServiceImp implements IProductService {
     @Override
     public void update(Long id, ProductUpdateDto dto) {
 
+        if(!id.equals(dto.getId())) {
+            throw new EntityNotFoundException("Product with id " + id + " not found");
+        }
+
         Optional<Product> product = productRepository.findById(id);
         Product p = productRepository.findById(id).orElseThrow(()-> new EntityNotFoundException());
 

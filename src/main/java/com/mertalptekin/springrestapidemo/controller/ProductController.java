@@ -6,6 +6,7 @@ import com.mertalptekin.springrestapidemo.dto.product.ProductListDto;
 import com.mertalptekin.springrestapidemo.entities.Product;
 import com.mertalptekin.springrestapidemo.repository.ProductRepository;
 import com.mertalptekin.springrestapidemo.service.IProductService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -45,7 +46,7 @@ public class ProductController {
 
     // api/products/v1
     @PostMapping
-    public ResponseEntity create(@RequestBody ProductCreateDto product) {
+    public ResponseEntity create(@Valid @RequestBody ProductCreateDto product) {
         // save yoksa kaydeder varsa günceller
         Long Id = productService.create(product);
         var uri =  URI.create("/api/products/v1/" + Id);
