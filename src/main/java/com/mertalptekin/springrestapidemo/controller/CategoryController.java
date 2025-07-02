@@ -3,6 +3,8 @@ package com.mertalptekin.springrestapidemo.controller;
 import com.mertalptekin.springrestapidemo.dto.category.CategoryDto;
 import com.mertalptekin.springrestapidemo.dto.product.ProductListDto;
 import com.mertalptekin.springrestapidemo.entities.Category;
+import com.mertalptekin.springrestapidemo.entities.Course;
+import com.mertalptekin.springrestapidemo.entities.Student;
 import com.mertalptekin.springrestapidemo.repository.CategoryRepository;
 import org.apache.catalina.mapper.Mapper;
 import org.modelmapper.ModelMapper;
@@ -35,6 +37,9 @@ public class CategoryController {
 
         Category c1 = categoryRepository.findByCategoryId(id);
         System.out.println("c1" + c1.getName());
+
+        Student s = new Student();
+        s.setCourses(List.of(new Course(),new Course()));
 
 
         Optional<Category> c = categoryRepository.findById(id);

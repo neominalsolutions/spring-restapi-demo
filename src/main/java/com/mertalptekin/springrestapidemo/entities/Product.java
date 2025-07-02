@@ -32,4 +32,7 @@ public class Product {
     private Category category;
 }
 
+// oneToMany olan yerden mappedby tanımı yapılır
+// @oneToOne ilişkide her iki taraftan da yapılabilir.
+// @ManytoMany de bir tane mapped tarafı seçeriz.
 // @oneToOne, @OneToMany, @manyToOne, @ManyToMany
