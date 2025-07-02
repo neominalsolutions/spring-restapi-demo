@@ -27,7 +27,7 @@ public class Product {
     @Column(name = "stock")
     private Integer unitsinStock;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "category_id") // FK
     private Category category;
 }
